@@ -1,4 +1,10 @@
-import { Descriptions, DescriptionsProps, Divider, Modal } from 'antd';
+import {
+  Descriptions,
+  DescriptionsProps,
+  Divider,
+  Modal,
+  Skeleton,
+} from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import { colors } from '../../utils/colors';
@@ -10,38 +16,61 @@ const EmplyeeDetailsModal = ({
   employeeDetailModal,
   setEmployeeDetailModal,
 }: any) => {
-  console.log(employeeId, 'empoyeeid');
   const { loading, error, data } = useQuery(GET_HRM_EMPLOYEE_BY_ID, {
-    variables: { employeeId },
+    variables: { id: employeeId },
+    skip: !employeeId,
   });
+
+  const datasource = data?.hRMEmployeeById;
+
+  console.log(data);
 
   const items: DescriptionsProps['items'] = [
     {
       key: '1',
       label: 'Designation',
-      children: 'Zhou Maomao',
+      children: (
+        <span style={{ color: colors.darkgray, fontWeight: '600' }}>
+          {datasource?.designation?.title || '-'}
+        </span>
+      ),
     },
     {
       key: '2',
       label: 'Contact',
-      children: '1810000000',
+      children: (
+        <span style={{ color: colors.darkgray, fontWeight: '600' }}>
+          {datasource?.contact || '-'}
+        </span>
+      ),
     },
     {
       key: '3',
       label: 'Created At',
-      children: 'Hangzhou, Zhejiang',
+      children: (
+        <span style={{ color: colors.darkgray, fontWeight: '600' }}>
+          {datasource?.createdAt || '-'}
+        </span>
+      ),
     },
     {
       key: '4',
       label: 'Department',
-      children: 'empty',
+      children: (
+        <span style={{ color: colors.darkgray, fontWeight: '600' }}>
+          {datasource?.department?.nameEnglish || '-'}
+        </span>
+      ),
     },
     {
       key: '5',
       label: 'Bank Name',
       span: 2,
-      children:
-        'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',
+      children: (
+        <span style={{ color: colors.darkgray, fontWeight: '600' }}>
+          {datasource?.bankName || '-'}
+        </span>
+      ),
     },
   ];
 
@@ -54,23 +83,34 @@ const EmplyeeDetailsModal = ({
         footer={null}
       >
         <Divider />
-        <Title style={{ fontSize: '18px', fontWeight: '600', margin: '0' }}>
-          John Doe
-        </Title>
-        <Text
-          style={{
-            fontSize: '12px',
-            color: colors.lightgray,
-          }}
-        >
-          Id: 1
-        </Text>
-        <Descriptions
-          labelStyle={{ fontSize: '12px', fontWeight: '600' }}
-          style={{ marginTop: '20px' }}
-          layout="vertical"
-          items={items}
-        />
+        {loading ? (
+          <Skeleton active />
+        ) : (
+          <>
+            <Title style={{ fontSize: '18px', fontWeight: '600', margin: '0' }}>
+              {datasource?.nameEnglish || '-'}
+            </Title>
+            <Text
+              style={{
+                fontSize: '12px',
+                color: colors.lightgray,
+              }}
+            >
+              Id: {datasource?.id || '-'}
+            </Text>
+            <Descriptions
+              labelStyle={{
+                fontSize: '12px',
+                fontWeight: '600',
+                paddingBottom: '0px',
+              }}
+              style={{ marginTop: '20px' }}
+              layout="vertical"
+              items={items}
+              column={2}
+            />
+          </>
+        )}
       </Modal>
     </div>
   );

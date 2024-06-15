@@ -16,7 +16,9 @@ interface DataType {
 const EmplyeesList = () => {
   const [employeeDetailModal, setEmployeeDetailModal] =
     useState<boolean>(false);
-  const [employeeId, setEmployeeId] = useState<number | null>(1);
+
+  const [employeeId, setEmployeeId] = useState<number | null>(null);
+
   const { loading, data } = useQuery(GET_EMPLOYEES_LIST, {
     variables: { first: 10, order: [{ id: 'ASC' }] },
   });

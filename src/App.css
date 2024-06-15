@@ -18,6 +18,7 @@
 .ant-checkbox-input:focus+.ant-checkbox-inner {
   border-color: inherit !important;
   box-shadow: none !important;
+  color: white !important;
 }
 
 .ant-btn:hover,
@@ -44,96 +45,3 @@
   background-color: #3B3EC2;
   color: white
 }
-
-/* 
-mutation ($username: String!, $password: String!) {
-  login(username: $username, password: $password) {
-    token
-    userName
-    branchName
-    isFirstTimeAccess
-    userId
-    isCashier
-    __typename
-  }
-} */
-
-
-/* 
-
-query ($first: Int, $last: Int, $before: String, $after: String, $where: HRMEmployeeDtoFilterInput, $order: [HRMEmployeeDtoSortInput!], $branchId: String) {
-  hRMEmployees(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    where: $where
-    order: $order
-    branchId: $branchId
-  ) {
-    totalCount
-    nodes {
-      id
-      nameArabic
-      nameEnglish
-      contact
-      iqamaNumber
-      dateOfBirth
-      iqamaExpiryDate
-      joiningDate
-      basicSalary
-      accomudation
-      travelling
-      communication
-      bankName
-      bankAccountNumber
-      bonus
-      commission {
-        id
-        commissionNameArabic
-        commissionNameEnglish
-        __typename
-      }
-      hRMEmployeeIncentive {
-        incentiveId
-        __typename
-      }
-      department {
-        id
-        nameEnglish
-        __typename
-      }
-      departmentId
-      designation {
-        id
-        title
-        __typename
-      }
-      level {
-        id
-        titleEnglish
-        titleArabic
-        __typename
-      }
-      employmentType {
-        id
-        typeNameEnglish
-        typeNameArabic
-        __typename
-      }
-      iqamaExpiryDate
-      status
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-      __typename
-    }
-    __typename
-  }
-}
-
-*/

@@ -47,6 +47,7 @@ export const GET_HRM_EMPLOYEE_BY_ID = gql`
   query GetHRMEmployeeById($id: Int!) {
     hRMEmployeeById(id: $id) {
       id
+      nameEnglish
       designation {
         id
         title
