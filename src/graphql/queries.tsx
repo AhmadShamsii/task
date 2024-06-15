@@ -43,3 +43,21 @@ export const GET_EMPLOYEES_LIST = gql`
     }
   }
 `;
+export const GET_HRM_EMPLOYEE_BY_ID = gql`
+  query GetHRMEmployeeById($id: Int!) {
+    hRMEmployeeById(id: $id) {
+      id
+      designation {
+        id
+        title
+      }
+      contact
+      createdAt
+      department {
+        id
+        nameEnglish
+      }
+      bankName
+    }
+  }
+`;

@@ -2,6 +2,9 @@ import { Input, Skeleton, Table, TableColumnsType } from 'antd';
 import { StyledButton, StyledEmplyeeListCard, StyledSkeleton } from './styles';
 import { useQuery } from '@apollo/client';
 import { GET_EMPLOYEES_LIST } from '../../graphql/queries';
+import Link from 'antd/es/typography/Link';
+import { useState } from 'react';
+import EmplyeeDetailsModal from '../../components/EmplyeeDetailModal';
 
 interface DataType {
   key: React.Key;
@@ -11,6 +14,9 @@ interface DataType {
 }
 
 const EmplyeesList = () => {
+  const [employeeDetailModal, setEmployeeDetailModal] =
+    useState<boolean>(false);
+  const [employeeId, setEmployeeId] = useState<number | null>(1);
   const { loading, data } = useQuery(GET_EMPLOYEES_LIST, {
     variables: { first: 10, order: [{ id: 'ASC' }] },
   });
@@ -34,7 +40,16 @@ const EmplyeesList = () => {
     },
     {
       title: 'Name',
-      dataIndex: 'nameEnglish',
+      render: (record) => (
+        <Link
+          onClick={() => {
+            setEmployeeId(record?.id);
+            setEmployeeDetailModal(true);
+          }}
+        >
+          {record.nameEnglish}
+        </Link>
+      ),
     },
     {
       title: 'Designation',
@@ -82,13 +97,20 @@ const EmplyeesList = () => {
   if (loading) return <StyledSkeleton active />;
 
   return (
-    <StyledEmplyeeListCard
-      title={`Total ${datasource?.length}`}
-      extra={search}
-      bordered={false}
-    >
-      <Table columns={columns} dataSource={datasource} />
-    </StyledEmplyeeListCard>
+    <>
+      <StyledEmplyeeListCard
+        title={`Total ${datasource?.length}`}
+        extra={search}
+        bordered={false}
+      >
+        <Table columns={columns} dataSource={datasource} />
+      </StyledEmplyeeListCard>
+      <EmplyeeDetailsModal
+        employeeId={employeeId}
+        employeeDetailModal={employeeDetailModal}
+        setEmployeeDetailModal={setEmployeeDetailModal}
+      />
+    </>
   );
 };
 
