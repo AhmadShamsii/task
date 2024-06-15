@@ -14,8 +14,12 @@ type FieldType = {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const onCompleted = (data: any) => {
+    // Redirect to employees list page on successful login
     navigate('/emplyees-list');
+    // Display success message
     message.success('Loged in successfully!');
   };
 
@@ -23,18 +27,20 @@ const Login = () => {
     onCompleted,
   });
 
-  const navigate = useNavigate();
   const onFinish: FormProps<FieldType>['onFinish'] = async ({
     username,
     password,
   }) => {
     try {
       const response = await mutateFunction({
+        // Pass username and password to mutation
         variables: { username, password },
       });
       const token = response.data.login.token;
+      // Store token in localStorage
       localStorage.setItem('token', token);
     } catch (err) {
+      // Display error message on failed login
       message.error('Invalid Login Credentials!');
     }
   };
@@ -73,7 +79,7 @@ const Login = () => {
         >
           <Input.Password
             style={{ borderRadius: '0', backgroundColor: colors.lightergray }}
-            size="large"
+            size="large" // Input size
             placeholder="********"
           />
         </Form.Item>

@@ -3,6 +3,7 @@
   background-color: red;
 }
 
+/* to change antd default styling */
 .ant-input:hover {
   border-color: inherit !important;
   box-shadow: none !important;

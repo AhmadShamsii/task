@@ -8,8 +8,7 @@ export const StyledEmplyeeListCard = styled(Card)`
   padding-top: 20px;
 `;
 export const StyledButton = styled(Button)`
-  width: 40%;
-  padding: 20px 0;
+  padding: 18px 40px;
   background-color: ${colors.blue};
   color: ${colors.lightergray};
   font-size: 16px;

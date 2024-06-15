@@ -10,21 +10,25 @@ import Text from 'antd/es/typography/Text';
 import { colors } from '../../utils/colors';
 import { useQuery } from '@apollo/client';
 import { GET_HRM_EMPLOYEE_BY_ID } from '../../graphql/queries';
+import { formatDate } from '../../utils/helpers';
 
+// EmployeeDetailsModal component definition
 const EmplyeeDetailsModal = ({
   employeeId,
   employeeDetailModal,
   setEmployeeDetailModal,
 }: any) => {
-  const { loading, error, data } = useQuery(GET_HRM_EMPLOYEE_BY_ID, {
+  // Fetching employee data using  useQuery hook
+  const { loading, data } = useQuery(GET_HRM_EMPLOYEE_BY_ID, {
     variables: { id: employeeId },
+    // Skip query if employeeId is not defined
     skip: !employeeId,
   });
 
+  // Extract employee details from fetched data
   const datasource = data?.hRMEmployeeById;
 
-  console.log(data);
-
+  // Descriptions items to display in the modal
   const items: DescriptionsProps['items'] = [
     {
       key: '1',
@@ -49,7 +53,7 @@ const EmplyeeDetailsModal = ({
       label: 'Created At',
       children: (
         <span style={{ color: colors.darkgray, fontWeight: '600' }}>
-          {datasource?.createdAt || '-'}
+          {formatDate(datasource?.createdAt) || '-'}
         </span>
       ),
     },
@@ -65,7 +69,7 @@ const EmplyeeDetailsModal = ({
     {
       key: '5',
       label: 'Bank Name',
-      span: 2,
+      span: 2, // Span two columns in Descriptions
       children: (
         <span style={{ color: colors.darkgray, fontWeight: '600' }}>
           {datasource?.bankName || '-'}
@@ -74,12 +78,13 @@ const EmplyeeDetailsModal = ({
     },
   ];
 
+  // Rendering the component
   return (
     <div>
       <Modal
         onCancel={() => setEmployeeDetailModal(false)}
         title="Employee Detail"
-        open={employeeDetailModal}
+        visible={employeeDetailModal}
         footer={null}
       >
         <Divider />
@@ -87,7 +92,7 @@ const EmplyeeDetailsModal = ({
           <Skeleton active />
         ) : (
           <>
-            <Title style={{ fontSize: '18px', fontWeight: '600', margin: '0' }}>
+            <Title style={{ fontSize: '18px', fontWeight: '600' }}>
               {datasource?.nameEnglish || '-'}
             </Title>
             <Text
@@ -102,7 +107,6 @@ const EmplyeeDetailsModal = ({
               labelStyle={{
                 fontSize: '12px',
                 fontWeight: '600',
-                paddingBottom: '0px',
               }}
               style={{ marginTop: '20px' }}
               layout="vertical"
