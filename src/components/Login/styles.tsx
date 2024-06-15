@@ -7,7 +7,6 @@ export const StyledLoginCard = styled(Card)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
   font-weight: 600;
 `;
 

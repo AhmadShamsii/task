@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_DOGS = gql`
+export const GET_EMPLOYEES_LIST = gql`
   query (
     $first: Int
     $last: Int

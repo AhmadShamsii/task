@@ -1,41 +1,62 @@
-import { Button, Card, Input, Table, TableColumnsType } from 'antd';
-import { StyledButton, StyledEmplyeeListCard } from './styles';
-import { colors } from '../../utils/colors';
+import { Input, Skeleton, Table, TableColumnsType } from 'antd';
+import { StyledButton, StyledEmplyeeListCard, StyledSkeleton } from './styles';
+import { useQuery } from '@apollo/client';
+import { GET_EMPLOYEES_LIST } from '../../graphql/queries';
+
+interface DataType {
+  key: React.Key;
+  name: string;
+  age: number;
+  address: string;
+}
 
 const EmplyeesList = () => {
-  interface DataType {
-    key: React.Key;
-    name: string;
-    age: number;
-    address: string;
-  }
+  const { loading, data } = useQuery(GET_EMPLOYEES_LIST, {
+    variables: { first: 10, order: [{ id: 'ASC' }] },
+  });
+
+  const datasource = data?.hRMEmployees?.nodes;
+  console.log(datasource);
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  };
 
   const columns: TableColumnsType<DataType> = [
     {
+      title: '#',
+      dataIndex: 'id',
+    },
+    {
       title: 'Name',
-      dataIndex: 'name',
+      dataIndex: 'nameEnglish',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
+      title: 'Designation',
+      render: (record) => record.designation.title,
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
+      title: 'Contact',
+      dataIndex: 'contact',
+    },
+    {
+      title: 'Bank Name',
+      dataIndex: 'bankName',
+    },
+    {
+      title: 'Department',
+      render: (record) => record.department.nameEnglish,
+    },
+    {
+      title: 'Created at',
+      render: (record) => formatDate(record.createdAt),
     },
   ];
-
-  const data: DataType[] = [];
-  for (let i = 0; i < 46; i++) {
-    data.push({
-      key: i,
-      name: `Edward King ${i}`,
-      age: 32,
-      address: `London, Park Lane no. ${i}`,
-    });
-  }
-
-  // change 115 to dynamic
 
   const search = (
     <div
@@ -57,9 +78,16 @@ const EmplyeesList = () => {
       <StyledButton>Search</StyledButton>
     </div>
   );
+
+  if (loading) return <StyledSkeleton active />;
+
   return (
-    <StyledEmplyeeListCard title="Total 115" extra={search} bordered={false}>
-      <Table columns={columns} dataSource={data} />
+    <StyledEmplyeeListCard
+      title={`Total ${datasource?.length}`}
+      extra={search}
+      bordered={false}
+    >
+      <Table columns={columns} dataSource={datasource} />
     </StyledEmplyeeListCard>
   );
 };

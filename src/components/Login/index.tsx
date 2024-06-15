@@ -19,7 +19,7 @@ const Login = () => {
     message.success('Loged in successfully!');
   };
 
-  const [mutateFunction, { loading, error }] = useMutation(LOGIN, {
+  const [mutateFunction] = useMutation(LOGIN, {
     onCompleted,
   });
 
@@ -29,35 +29,30 @@ const Login = () => {
     password,
   }) => {
     try {
-      await mutateFunction({ variables: { username, password } });
+      const response = await mutateFunction({
+        variables: { username, password },
+      });
+      const token = response.data.login.token;
+      localStorage.setItem('token', token);
     } catch (err) {
       message.error('Invalid Login Credentials!');
     }
   };
 
-  // const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
-  //   errorInfo
-  // ) => {
-  //   messageApi.open({
-  //     type: 'error',
-  //     content: 'Invalid Login Credentials!',
-  //   });
-  //   console.log('Failed:', errorInfo);
-  // };
-
   return (
     <StyledLoginCard style={{ width: 400 }}>
-      <Title style={{ fontSize: '30px', color: colors.black }}>Login</Title>
-      <Text style={{ color: colors.lightgray }}>
-        Enter Credentials to get access
-      </Text>
+      <div style={{ textAlign: 'center' }}>
+        <Title style={{ fontSize: '30px', color: colors.black }}>Login</Title>
+        <Text style={{ color: colors.lightgray }}>
+          Enter Credentials to get access
+        </Text>
+      </div>
 
       <Form
         style={{ margin: '60px 30px 20px 30px' }}
         name="basic"
         layout="vertical"
         onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
       >
         <Form.Item<FieldType>
           rules={[{ required: true, message: 'Please input your email!' }]}
