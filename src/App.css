@@ -2,37 +2,137 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ant-input:hover {
+  border-color: inherit !important;
+  box-shadow: none !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.ant-input:focus,
+.ant-input-focused {
+  border-color: inherit !important;
+  box-shadow: none !important;
+}
+
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus+.ant-checkbox-inner {
+  border-color: inherit !important;
+  box-shadow: none !important;
+}
+
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active,
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn-primary:active {
+  border-color: inherit !important;
+  box-shadow: none !important;
+  background-color: inherit !important;
+  /* Use inherit or specify desired background color */
+  color: inherit !important;
+  /* Use inherit or specify desired color */
+  transition: none !important;
+  /* Remove any transitions */
+}
+
+.ant-table-wrapper .ant-table-tbody {
+  border-bottom: none !important;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  background-color: #3B3EC2;
+  color: white
+}
+
+/* 
+mutation ($username: String!, $password: String!) {
+  login(username: $username, password: $password) {
+    token
+    userName
+    branchName
+    isFirstTimeAccess
+    userId
+    isCashier
+    __typename
   }
+} */
+
+
+/* 
+
+query ($first: Int, $last: Int, $before: String, $after: String, $where: HRMEmployeeDtoFilterInput, $order: [HRMEmployeeDtoSortInput!], $branchId: String) {
+  hRMEmployees(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    where: $where
+    order: $order
+    branchId: $branchId
+  ) {
+    totalCount
+    nodes {
+      id
+      nameArabic
+      nameEnglish
+      contact
+      iqamaNumber
+      dateOfBirth
+      iqamaExpiryDate
+      joiningDate
+      basicSalary
+      accomudation
+      travelling
+      communication
+      bankName
+      bankAccountNumber
+      bonus
+      commission {
+        id
+        commissionNameArabic
+        commissionNameEnglish
+        __typename
+      }
+      hRMEmployeeIncentive {
+        incentiveId
+        __typename
+      }
+      department {
+        id
+        nameEnglish
+        __typename
+      }
+      departmentId
+      designation {
+        id
+        title
+        __typename
+      }
+      level {
+        id
+        titleEnglish
+        titleArabic
+        __typename
+      }
+      employmentType {
+        id
+        typeNameEnglish
+        typeNameArabic
+        __typename
+      }
+      iqamaExpiryDate
+      status
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      __typename
+    }
+    __typename
+  }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+*/
