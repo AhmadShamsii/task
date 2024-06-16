@@ -19,6 +19,7 @@ export const GET_EMPLOYEES_LIST = gql`
       order: $order
       branchId: $branchId
     ) {
+      totalCount
       nodes {
         id
         nameEnglish

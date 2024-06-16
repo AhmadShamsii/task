@@ -1,6 +1,6 @@
 import './App.css';
 import Login from './components/Login';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import EmplyeesList from './routes/EmployeeList';
 import {
   ApolloClient,
@@ -38,7 +38,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Login />} />
-          <Route path="/emplyees-list" element={<EmplyeesList />} />
+          <Route
+            path="/emplyees-list"
+            element={token ? <EmplyeesList /> : <Navigate to="/" />}
+          />
         </Routes>
       </BrowserRouter>
     </ApolloProvider>

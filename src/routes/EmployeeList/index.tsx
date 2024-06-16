@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { Form, Input, Table, TableColumnsType } from 'antd';
+import { Button, Form, Input, Space, Table, TableColumnsType } from 'antd';
 import { StyledButton, StyledEmplyeeListCard, StyledSkeleton } from './styles';
 import Link from 'antd/es/typography/Link';
 import { GET_EMPLOYEES_LIST } from '../../graphql/queries';
 import EmplyeeDetailsModal from '../../components/EmplyeeDetailModal';
 import { formatDate } from '../../utils/helpers';
+import { recordsPerPage } from '../../utils/constants';
 
 interface DataType {
   key: React.Key;
@@ -16,8 +17,8 @@ interface DataType {
 
 const EmplyeesList = () => {
   // State for filtering and pagination
-  const [filters, setFilters] = useState({
-    first: 10,
+  const [filters, setFilters] = useState<any>({
+    first: recordsPerPage,
     last: null,
     after: null,
     before: null,
@@ -31,7 +32,7 @@ const EmplyeesList = () => {
   const [employeeId, setEmployeeId] = useState<number | null>(null);
 
   // Query for employee list data
-  const { loading, data, refetch } = useQuery(GET_EMPLOYEES_LIST, {
+  const { loading, data } = useQuery(GET_EMPLOYEES_LIST, {
     variables: filters,
     fetchPolicy: 'no-cache',
   });
@@ -151,6 +152,30 @@ const EmplyeesList = () => {
 
   if (loading) return <StyledSkeleton active />;
 
+  const handlePrevious = () => {
+    setFilters(() => {
+      return {
+        ...filters,
+        first: null,
+        last: recordsPerPage,
+        before: data?.hRMEmployees?.pageInfo?.startCursor,
+        after: null,
+      };
+    });
+  };
+
+  const handleNext = () => {
+    setFilters(() => {
+      return {
+        ...filters,
+        before: null,
+        last: null,
+        first: recordsPerPage,
+        after: data?.hRMEmployees?.pageInfo?.endCursor,
+      };
+    });
+  };
+
   return (
     <>
       <StyledEmplyeeListCard
@@ -158,7 +183,42 @@ const EmplyeesList = () => {
         extra={search}
         bordered={false}
       >
-        <Table columns={columns} dataSource={datasource} />
+        <Table
+          pagination={false}
+          // commented code for future use if antd pagination is required
+
+          // pagination={{
+          //   pageSize: filters.first,
+          //   current: 1,
+          //   total: data?.hRMEmployees?.totalCount,
+          //   onChange: handlePaginationChange,
+          //   showTotal: (total, currentSize) =>
+          //     `${'Current Page'}: ${Math.ceil(
+          //       currentSize[1] / filters.first
+          //     )} ${'out of'} ${Math.ceil(total / filters.first)}`,
+          // }}
+          columns={columns}
+          dataSource={datasource}
+        />
+        <Space
+          style={{
+            float: 'right',
+            margin: '20px 0',
+          }}
+        >
+          <Button
+            disabled={!data?.hRMEmployees?.pageInfo?.hasPreviousPage}
+            onClick={handlePrevious}
+          >
+            Previous
+          </Button>
+          <Button
+            onClick={handleNext}
+            disabled={!data?.hRMEmployees?.pageInfo?.hasNextPage}
+          >
+            Next
+          </Button>
+        </Space>
       </StyledEmplyeeListCard>
       <EmplyeeDetailsModal
         employeeId={employeeId}
